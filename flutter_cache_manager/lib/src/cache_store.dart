@@ -148,6 +148,9 @@ class CacheStore {
     }
 
     await provider.deleteAll(toRemove);
+
+    //added by pyaesone for ios issue close the db
+    await provider.close();
   }
 
   Future<void> emptyCache() async {
@@ -158,6 +161,8 @@ class CacheStore {
       _removeCachedFile(cacheObject, toRemove);
     }
     await provider.deleteAll(toRemove);
+    //added by pyaesone for ios issue close the db
+    await provider.close();
   }
 
   void emptyMemoryCache() {
@@ -169,6 +174,8 @@ class CacheStore {
     final toRemove = <int>[];
     await _removeCachedFile(cacheObject, toRemove);
     await provider.deleteAll(toRemove);
+    //added by pyaesone for ios issue close the db
+    await provider.close();
   }
 
   Future<void> _removeCachedFile(
