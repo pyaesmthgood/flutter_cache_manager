@@ -30,7 +30,7 @@ class CacheObjectProvider extends CacheInfoRepository
     db = await openDatabase(path, version: 3,
         onCreate: (Database db, int version) async {
       await db.execute('''
-      create table $_tableCacheObject (
+      create table IF NOT EXISTS $_tableCacheObject (
         ${CacheObject.columnId} integer primary key,
         ${CacheObject.columnUrl} text,
         ${CacheObject.columnKey} text,
@@ -123,8 +123,12 @@ class CacheObjectProvider extends CacheInfoRepository
 
   @override
   Future<int> deleteAll(Iterable<int> ids) {
-    return db!.delete(_tableCacheObject,
-        where: '${CacheObject.columnId} IN (${ids.join(',')})');
+    if (ids.isEmpty) {
+      return Future.value(0);
+    } else {
+      return db!.delete(_tableCacheObject,
+          where: '${CacheObject.columnId} IN (${ids.join(',')})');
+    }
   }
 
   @override
