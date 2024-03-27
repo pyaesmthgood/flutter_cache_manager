@@ -268,8 +268,10 @@ class CacheManager implements BaseCacheManager {
   @override
   Future<void> removeFile(String key) async {
     final cacheObject = await _store.retrieveCacheData(key);
-    if (cacheObject?.id != null) {
-      await _store.removeCachedFile(cacheObject!);
+    if(cacheObject != null){
+      if (cacheObject.id != null) {
+        await _store.removeCachedFile(cacheObject);
+      }
     }
   }
 
