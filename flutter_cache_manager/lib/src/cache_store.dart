@@ -174,7 +174,7 @@ class CacheStore {
 
   Future<void> _removeCachedFile(
       CacheObject cacheObject, List<int> toRemove) async {
-    if(cacheObject.id != null){
+    if (cacheObject.id != null) {
       if (toRemove.contains(cacheObject.id)) return;
 
       toRemove.add(cacheObject.id!);
@@ -185,11 +185,11 @@ class CacheStore {
         _futureCache.remove(cacheObject.key);
       }
       final file = await fileSystem.createFile(cacheObject.relativePath);
-      if (await file.exists()) {
+      if (file.existsSync()) {
         try {
           await file.delete();
           // ignore: unused_catch_clause
-        } on PathNotFoundException catch (e) {
+        }  catch (e) {
           // File has already been deleted. Do nothing #184
         }
       }
